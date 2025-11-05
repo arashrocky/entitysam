@@ -1,5 +1,11 @@
 # Copyright (c) Adobe EntitySAM team.
 
+import sys
+# Remove the wrong SAM2 path if it exists
+sys.path = [p for p in sys.path if 'SAM2/segment-anything-2' not in p]
+# Add the correct one (entitysam's bundled sam2)
+sys.path.insert(0, '/data2/arash/projects/EntitySeg/sam2')
+
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
@@ -198,7 +204,8 @@ if __name__ == "__main__":
     model_cfg = args.model_cfg
     predictor = build_sam2_video_query_iou_predictor(model_cfg, sam2_checkpoint, mask_decoder_depth=args.mask_decoder_depth)
 
-    with open("datasets/VIPSeg_720P/panoptic_gt_VIPSeg_val.json",'r') as f:
+    # with open("datasets/VIPSeg_720P/panoptic_gt_VIPSeg_val.json",'r') as f:
+    with open("/data2/arash/Dataset/EntitySAM_Dataset/datasets/VIPSeg_720P/panoptic_gt_VIPSeg_val.json",'r') as f:
         data_val_json = json.load(f)
 
     categories_list = data_val_json["categories"]
@@ -210,7 +217,8 @@ if __name__ == "__main__":
 
     predictions = []
 
-    root_path = "datasets/VIPSeg_720P/images"
+    # root_path = "datasets/VIPSeg_720P/images"
+    root_path= "/data2/arash/Dataset/EntitySAM_Dataset/datasets/VIPSeg_720P/images"
     start_idx = 0
     end_idx = len(data_val_json['videos'])
     processing_order = range(start_idx,end_idx)
